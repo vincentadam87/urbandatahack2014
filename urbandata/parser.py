@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import matplotlib.pyplot as plt
 
 DATA_DIR = os.path.join(os.path.dirname(os.getcwd()), 'data')
 ANTI_SOCIAL_FN = os.path.join(DATA_DIR, 'WCC_CleansingAntiSocialBehaviour.csv')
@@ -14,7 +15,7 @@ def get_anti_social_data():
                      false_values=["NO"],
                      converters={"StreetName": lambda s: s.title()})
     df.columns = [c.title() for c in df.columns]
-    return df
+    return df.sort_index()
 
 
 def get_licensing_data():
@@ -22,9 +23,10 @@ def get_licensing_data():
                      index_col=["RepresentationResponseDate"],
                      parse_dates=["RepresentationResponseDate"])
     df.columns = [c.title() for c in df.columns]
-    return df
+    return df.sort_index()
 
 
 if __name__ == '__main__':
-    print get_anti_social_data()
-    print get_licensing_data()
+    print get_anti_social_data().head()
+    print get_licensing_data().head()
+
