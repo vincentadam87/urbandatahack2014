@@ -46,3 +46,6 @@ def plot_kde(x,y,Z):
     ax.set_xlim([xmin, xmax])
     ax.set_ylim([ymin, ymax])
     plt.show()
+
+
+
