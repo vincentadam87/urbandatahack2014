@@ -1,8 +1,11 @@
 from descartes import PolygonPatch
 import fiona
 from itertools import chain
+import matplotlib
+from matplotlib.cm import get_cmap
 from matplotlib.collections import PatchCollection
 from mpl_toolkits.basemap import Basemap
+from numpy import concatenate, linspace
 from shapely.geometry import Point, Polygon, MultiPoint, MultiPolygon
 from shapely.prepared import prep
 
@@ -164,6 +167,5 @@ def scatter_plot_map(points, shape_filename, x_inch=20, y_inch=20):
         fillcolor1='w', fillcolor2='#555555',
         fontcolor='#555555',
         zorder=5)
-    plt.tight_layout()
     fig.set_size_inches(x_inch, y_inch)
-    plt.show()
+    return fig
