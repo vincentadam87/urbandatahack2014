@@ -5,7 +5,7 @@ import numpy as np
 
 DATA_DIR = os.path.join(os.path.dirname(os.getcwd()), 'data')
 ANTI_SOCIAL_FN = os.path.join(DATA_DIR, 'WCC_CleansingAntiSocialBehaviour.csv')
-LICENSING_FN = os.path.join(DATA_DIR, 'WCC_Licensing.csv')
+LICENSING_FN = os.path.join(DATA_DIR, 'IssuedLicences.csv')
 
 
 def get_anti_social_data():
@@ -24,8 +24,8 @@ def get_licensing_data(only_alcohol_serving=False):
     only_alcohol_serving: filter licencing data to only include pubs, winebars and nightclubs
     """
     df = pd.read_csv(LICENSING_FN,
-                     index_col=["RepresentationResponseDate"],
-                     parse_dates=["RepresentationResponseDate"])
+                     index_col=["IssuedDate"],
+                     parse_dates=["IssuedDate"])
     df.columns = [c.title() for c in df.columns]
     if only_alcohol_serving:
         ALCOHOL_TYPES = ['Type - Wine bar', 'Type - Public house or pub restaurant', 'Type - Night clubs and discos']
@@ -34,7 +34,10 @@ def get_licensing_data(only_alcohol_serving=False):
 
 
 if __name__ == '__main__':
-    print get_anti_social_data().head()
-    print get_licensing_data().head()
-    print get_licensing_data(only_alcohol_serving=True).head()
+    #print get_anti_social_data().head()
+    #print get_licensing_data().head()
+    print sum(get_licensing_data()['Premisesuse'] == 'Type - Night clubs and discos')
+    print sum(get_licensing_data()['Premisesuse'] == 'Type - Public house or pub restaurant')
+    print sum(get_licensing_data()['Premisesuse'] == 'Type - Wine bar')
+    #print get_licensing_data(only_alcohol_serving=True).head()
 
