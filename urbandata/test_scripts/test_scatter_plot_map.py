@@ -1,5 +1,4 @@
-from matplotlib.pyplot import show
-from time import sleep
+from matplotlib.pyplot import show, ylim, xlim
 
 from urbandata.parser import get_licensing_data, get_anti_social_data
 from urbandata.plot import scatter_plot_map
@@ -12,7 +11,5 @@ print shape_filename
 points = get_licensing_data()[["Long", "Lat"]]
 points = get_anti_social_data()[["Long", "Lat"]]
 
-
 fig=scatter_plot_map(points, shape_filename)
-fig.show()
-sleep(3)
+show()

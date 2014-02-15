@@ -1,62 +1,16 @@
 from descartes import PolygonPatch
 import fiona
 from itertools import chain
-import matplotlib
-from matplotlib.cm import get_cmap
 from matplotlib.collections import PatchCollection
+from matplotlib.pyplot import ylim, xlim
 from mpl_toolkits.basemap import Basemap
-from numpy import concatenate, linspace
 from shapely.geometry import Point, Polygon, MultiPoint, MultiPolygon
 from shapely.prepared import prep
 
-import matplotlib.cm as cm
 import matplotlib.pyplot as plt
-import numpy as np
 import pandas as pd
 
-
-# Convenience functions for working with colour ramps and bars
-def colorbar_index(ncolors, cmap, labels=None, **kwargs):
-    """
-    This is a convenience function to stop you making off-by-one errors
-    Takes a standard colourmap, and discretises it,
-    then draws a color bar with correctly aligned labels
-    """
-    cmap = cmap_discretize(cmap, ncolors)
-    mappable = cm.ScalarMappable(cmap=cmap)
-    mappable.set_array([])
-    mappable.set_clim(-0.5, ncolors + 0.5)
-    colorbar = plt.colorbar(mappable, **kwargs)
-    colorbar.set_ticks(np.linspace(0, ncolors, ncolors))
-    colorbar.set_ticklabels(range(ncolors))
-    if labels:
-        colorbar.set_ticklabels(labels)
-    return colorbar
-
-def cmap_discretize(cmap, N):
-    """
-    Return a discrete colormap from the continuous colormap cmap.
-
-        cmap: colormap instance, eg. cm.jet. 
-        N: number of colors.
-
-    Example
-        x = resize(arange(100), (5,100))
-        djet = cmap_discretize(cm.jet, 5)
-        imshow(x, cmap=djet)
-
-    """
-    if type(cmap) == str:
-        cmap = get_cmap(cmap)
-    colors_i = concatenate((linspace(0, 1., N), (0., 0., 0., 0.)))
-    colors_rgba = cmap(colors_i)
-    indices = linspace(0, 1., N + 1)
-    cdict = {}
-    for ki, key in enumerate(('red', 'green', 'blue')):
-        cdict[key] = [(indices[i], colors_rgba[i - 1, ki], colors_rgba[i, ki]) for i in xrange(N + 1)]
-    return matplotlib.colors.LinearSegmentedColormap(cmap.name + "_%d" % N, cdict, 1024)
-
-def scatter_plot_map(points, shape_filename, x_inch=20, y_inch=20):
+def scatter_plot_map(points, shape_filename, x_inch=5, y_inch=5):
     """ 
     stolen from
     http://sensitivecities.com/so-youd-like-to-make-a-map-using-python-EN.html#.Uv-emx-jJKZ
@@ -143,6 +97,7 @@ def scatter_plot_map(points, shape_filename, x_inch=20, y_inch=20):
         zorder=4))
     
     # draw
+    plt.close()
     fig = plt.figure()
     ax = fig.add_subplot(111, axisbg='w', frame_on=False)
     
@@ -168,4 +123,6 @@ def scatter_plot_map(points, shape_filename, x_inch=20, y_inch=20):
         fontcolor='#555555',
         zorder=5)
     fig.set_size_inches(x_inch, y_inch)
+    ax.set_xlim([19000,30000])
+    ax.set_ylim([21000, 30000])
     return fig
