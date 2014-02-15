@@ -3,7 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-DATA_DIR = os.path.join(os.path.dirname(os.getcwd()), 'data')
+DATA_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'data')
 ANTI_SOCIAL_FN = os.path.join(DATA_DIR, 'WCC_CleansingAntiSocialBehaviour.csv')
 LICENSING_FN = os.path.join(DATA_DIR, 'IssuedLicences.csv')
 
