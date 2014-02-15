@@ -1,6 +1,8 @@
 import os
 import datetime as dt
 
+import pandas as pd
+
 DATA_DIR = os.path.join(os.path.dirname(os.getcwd()), 'data')
 ANTI_SOCIAL_FN = os.path.join(DATA_DIR, 'WCC_CleansingAntiSocialBehaviour.csv')
 LICENSING_FN = os.path.join(DATA_DIR, 'WCC_Licensing.csv')
@@ -28,9 +30,14 @@ def get_anti_social_data():
     return result
 
 
+def get_licensing_data():
+    return pd.read_csv(LICENSING_FN,
+                       index_col=["RepresentationResponseDate"],
+                       parse_dates=["RepresentationResponseDate"])
+
+
 if __name__ == '__main__':
     raw_data = read_file(ANTI_SOCIAL_FN)
     data = get_anti_social_data()
     print data['Blood']
     print data['date']
-
