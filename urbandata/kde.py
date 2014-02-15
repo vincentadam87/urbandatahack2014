@@ -6,7 +6,7 @@ def get_kernel_density(x,y):
     values = np.vstack([x, y])
     return stats.gaussian_kde(values)
 
-def evaluate_kernel_density(x,y,k):
+def evaluate_kernel_density_on_grid(x,y,k):
     xmin = x.min()
     xmax = x.max()
     ymin = y.min()
@@ -14,6 +14,11 @@ def evaluate_kernel_density(x,y,k):
     X, Y = np.mgrid[xmin:xmax:100j, ymin:ymax:100j]
     positions = np.vstack([X.ravel(), Y.ravel()])
     Z = np.reshape(k(positions).T, X.shape)
+    return Z
+
+def evaluate_kernel_density(x,y,k):
+    positions = np.vstack([x, y])
+    Z = np.reshape(k(positions).T, x.shape)
     return Z
 
 def make_kde(x,y):
