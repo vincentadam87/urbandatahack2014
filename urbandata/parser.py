@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy as np
 
 DATA_DIR = os.path.join(os.path.dirname(os.getcwd()), 'data')
 ANTI_SOCIAL_FN = os.path.join(DATA_DIR, 'WCC_CleansingAntiSocialBehaviour.csv')
@@ -18,15 +19,22 @@ def get_anti_social_data():
     return df.sort_index()
 
 
-def get_licensing_data():
+def get_licensing_data(only_alcohol_serving=False):
+    """
+    only_alcohol_serving: filter licencing data to only include pubs, winebars and nightclubs
+    """
     df = pd.read_csv(LICENSING_FN,
                      index_col=["RepresentationResponseDate"],
                      parse_dates=["RepresentationResponseDate"])
     df.columns = [c.title() for c in df.columns]
+    if only_alcohol_serving:
+        ALCOHOL_TYPES = ['Type - Wine bar', 'Type - Public house or pub restaurant', 'Type - Night clubs and discos']
+        df = df[np.array([x in ALCOHOL_TYPES for x in df['Premisesuse'].values])]
     return df.sort_index()
 
 
 if __name__ == '__main__':
     print get_anti_social_data().head()
     print get_licensing_data().head()
+    print get_licensing_data(only_alcohol_serving=True).head()
 
