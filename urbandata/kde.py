@@ -39,12 +39,18 @@ def plot_kde(x,y,Z):
     xmax = x.max()
     ymin = y.min()
     ymax = y.max()
-    fig = plt.figure()
+    fig = plt.figure(figsize=(10,10))
     ax = fig.add_subplot(111)
     ax.imshow(np.rot90(Z), cmap=plt.cm.gist_earth_r, extent=[xmin, xmax, ymin, ymax])
     ax.plot(x, y, 'k.', markersize=2)
     ax.set_xlim([xmin, xmax])
     ax.set_ylim([ymin, ymax])
+    ax.axis('equal')
+    ax.set_autoscale_on(False)
+    plt.ylabel('(m)')
+    plt.xlabel('(m)')
+
+
     plt.show()
 
 
